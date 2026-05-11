@@ -1,0 +1,273 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#111827;--surface:#1f2937;--surface2:#374151;--border:#374151;--border2:#4b5563;
+  --text:#f9fafb;--text2:#9ca3af;--text3:#6b7280;
+  --green:#10b981;--green2:#059669;--green-bg:#064e3b;
+  --amber:#f59e0b;--red:#ef4444;--blue:#3b82f6;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;height:600px;overflow:hidden}
+.shell{display:grid;grid-template-columns:200px 1fr 220px;height:100%;gap:0}
+
+/* LEFT SIDEBAR */
+.left{background:var(--surface);border-right:1px solid var(--border);padding:1rem;display:flex;flex-direction:column;gap:1rem;overflow-y:auto}
+.logo{font-size:1rem;font-weight:500;color:var(--text);padding-bottom:0.75rem;border-bottom:1px solid var(--border)}
+.logo span{color:var(--green)}
+.filter-group label{font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:0.5rem}
+.filter-btn-group{display:flex;flex-direction:column;gap:4px}
+.filt-btn{background:var(--surface2);border:1px solid var(--border2);color:var(--text2);border-radius:6px;padding:0.45rem 0.75rem;font-family:'DM Sans',sans-serif;font-size:0.8rem;cursor:pointer;text-align:left;transition:all 0.15s}
+.filt-btn.active{background:var(--green-bg);border-color:var(--green2);color:var(--green)}
+.filt-btn:hover:not(.active){border-color:var(--text3);color:var(--text)}
+.toggle-row{display:flex;justify-content:space-between;align-items:center}
+.toggle{position:relative;width:36px;height:20px;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;background:var(--surface2);border-radius:10px;border:1px solid var(--border2);transition:background 0.2s}
+.toggle input:checked+.toggle-track{background:var(--green2);border-color:var(--green2)}
+.toggle-thumb{position:absolute;width:14px;height:14px;background:#fff;border-radius:50%;top:2px;left:2px;transition:left 0.2s}
+.toggle input:checked~.toggle-thumb{left:18px}
+.legend{margin-top:auto}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:0.75rem;color:var(--text2);margin-bottom:6px}
+.dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* MAP */
+.map-area{position:relative;background:#1a2332;overflow:hidden;cursor:crosshair}
+.map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:40px 40px}
+.map-roads{position:absolute;inset:0}
+.heatmap{position:absolute;border-radius:50%;pointer-events:none;transition:all 0.4s ease}
+.gym-pin{position:absolute;transform:translate(-50%,-50%);cursor:pointer;transition:transform 0.2s;z-index:10}
+.gym-pin:hover{transform:translate(-50%,-50%) scale(1.3)}
+.gym-pin svg{filter:drop-shadow(0 2px 6px rgba(0,0,0,0.5))}
+.map-label{position:absolute;background:rgba(17,24,39,0.85);border:1px solid var(--border2);border-radius:4px;padding:2px 7px;font-size:0.68rem;color:var(--text2);white-space:nowrap;pointer-events:none;transform:translate(-50%,-120%)}
+.sel-ring{position:absolute;border-radius:50%;border:2px dashed rgba(16,185,129,0.6);pointer-events:none;animation:pulse-ring 2s infinite;transform:translate(-50%,-50%)}
+@keyframes pulse-ring{0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.03)}}
+.map-badge{position:absolute;bottom:12px;left:12px;background:rgba(17,24,39,0.85);border:1px solid var(--border2);border-radius:8px;padding:0.5rem 0.75rem;font-size:0.72rem;color:var(--text2)}
+.map-badge strong{color:var(--text);font-weight:500}
+
+/* RIGHT SIDEBAR */
+.right{background:var(--surface);border-left:1px solid var(--border);padding:1rem;display:flex;flex-direction:column;gap:0.75rem;overflow-y:auto}
+.score-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.25rem}
+.score-label{font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3)}
+.big-score{display:flex;align-items:baseline;gap:6px;margin:0.5rem 0}
+.score-num{font-size:2.5rem;font-weight:300;line-height:1;color:var(--green)}
+.score-denom{font-size:1rem;color:var(--text3)}
+.score-ring{width:100%;height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-bottom:0.25rem}
+.score-fill{height:100%;border-radius:3px;transition:width 0.6s ease;background:linear-gradient(90deg,var(--green2),var(--green))}
+.metric-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0.75rem}
+.metric-card .m-label{font-size:0.7rem;color:var(--text3);margin-bottom:2px}
+.metric-card .m-val{font-size:1.2rem;font-weight:500;color:var(--text)}
+.metric-card .m-sub{font-size:0.72rem;color:var(--text3);margin-top:2px}
+.risk-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.75rem;font-weight:500}
+.risk-low{background:#064e3b;color:#6ee7b7}
+.risk-med{background:#78350f;color:#fcd34d}
+.risk-high{background:#7f1d1d;color:#fca5a5}
+.site-name{font-size:0.88rem;font-weight:500;color:var(--text);margin-bottom:2px}
+.site-addr{font-size:0.75rem;color:var(--text3)}
+.divider{border:none;border-top:1px solid var(--border);margin:0.25rem 0}
+.comp-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:0.78rem;border-bottom:1px solid var(--border)}
+.comp-row:last-child{border-bottom:none}
+.comp-name{color:var(--text2)}
+.comp-dist{color:var(--text3)}
+</style>
+
+<h2 class="sr-only">StrataGym mock map dashboard — site analysis tool for multi-location gym operators</h2>
+
+<div class="shell">
+  <!-- LEFT -->
+  <div class="left">
+    <div class="logo">Strata<span>Gym</span></div>
+    <div class="filter-group">
+      <label>Drive Time</label>
+      <div class="filter-btn-group" id="dt-group">
+        <button class="filt-btn" onclick="setDrive(5,this)">5 min radius</button>
+        <button class="filt-btn active" onclick="setDrive(10,this)">10 min radius</button>
+        <button class="filt-btn" onclick="setDrive(15,this)">15 min radius</button>
+      </div>
+    </div>
+    <div class="filter-group">
+      <label>Income Bracket</label>
+      <div class="filter-btn-group" id="inc-group">
+        <button class="filt-btn" onclick="setIncome('all',this)">All brackets</button>
+        <button class="filt-btn active" onclick="setIncome('mid',this)">$60k – $100k</button>
+        <button class="filt-btn" onclick="setIncome('high',this)">$100k+</button>
+      </div>
+    </div>
+    <div class="filter-group">
+      <label>Brand Normalizer</label>
+      <div class="toggle-row">
+        <span style="font-size:0.8rem;color:var(--text2)">Adjust for brand</span>
+        <label class="toggle"><input type="checkbox" id="brand-tog" onchange="toggleBrand()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+      </div>
+      <p style="font-size:0.7rem;color:var(--text3);margin-top:6px;line-height:1.5">Normalizes competitor weight by brand strength (e.g. Planet Fitness scores higher than indie gyms)</p>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="dot" style="background:#10b981"></div>Your gyms</div>
+      <div class="legend-item"><div class="dot" style="background:#ef4444"></div>Big box competitors</div>
+      <div class="legend-item"><div class="dot" style="background:#f59e0b"></div>Boutique / indie</div>
+      <div class="legend-item"><div class="dot" style="background:rgba(16,185,129,0.25);border:1px solid #10b981"></div>Selected heatmap</div>
+    </div>
+  </div>
+
+  <!-- MAP -->
+  <div class="map-area" id="map">
+    <div class="map-grid"></div>
+    <svg class="map-roads" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.12">
+      <line x1="0" y1="180" x2="800" y2="180" stroke="#64748b" stroke-width="5"/>
+      <line x1="0" y1="380" x2="800" y2="380" stroke="#64748b" stroke-width="5"/>
+      <line x1="200" y1="0" x2="200" y2="600" stroke="#64748b" stroke-width="5"/>
+      <line x1="480" y1="0" x2="480" y2="600" stroke="#64748b" stroke-width="5"/>
+      <line x1="0" y1="280" x2="800" y2="280" stroke="#475569" stroke-width="2.5"/>
+      <line x1="340" y1="0" x2="340" y2="600" stroke="#475569" stroke-width="2.5"/>
+      <line x1="0" y1="100" x2="800" y2="100" stroke="#334155" stroke-width="1.5"/>
+      <line x1="0" y1="460" x2="800" y2="460" stroke="#334155" stroke-width="1.5"/>
+      <line x1="100" y1="0" x2="100" y2="600" stroke="#334155" stroke-width="1.5"/>
+      <line x1="600" y1="0" x2="600" y2="600" stroke="#334155" stroke-width="1.5"/>
+    </svg>
+
+    <!-- Heatmap circles - rendered by JS -->
+    <div id="heatmaps"></div>
+
+    <!-- Gym pins -->
+    <div id="pins"></div>
+
+    <div class="map-badge">
+      <strong>Phoenix Metro</strong> · Mock data for demo
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right" id="right-panel">
+    <div class="score-label">Site Score</div>
+    <div class="big-score">
+      <span class="score-num" id="s-num">82</span>
+      <span class="score-denom">/ 100</span>
+    </div>
+    <div class="score-ring"><div class="score-fill" id="s-fill" style="width:82%"></div></div>
+    <div style="font-size:0.72rem;color:var(--text3)" id="s-verdict">Strong site — recommended</div>
+    <hr class="divider">
+    <div style="font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-bottom:4px" id="s-name-label">Chandler South</div>
+    <div style="font-size:0.72rem;color:var(--text3)" id="s-addr">2210 S Gilbert Rd · Mock Location</div>
+    <hr class="divider">
+    <div class="metric-card">
+      <div class="m-label">Estimated Reach</div>
+      <div class="m-val" id="s-reach">47,200</div>
+      <div class="m-sub">Adults within drive time</div>
+    </div>
+    <div class="metric-card">
+      <div class="m-label">Competitor Overlap</div>
+      <div class="m-val" id="s-overlap">12%</div>
+      <div class="m-sub" id="s-overlap-sub">2 gyms sharing your trade area</div>
+    </div>
+    <div class="metric-card">
+      <div class="m-label">Cannibalization Risk</div>
+      <div class="m-val"><span class="risk-badge risk-low" id="s-risk">Low</span></div>
+      <div class="m-sub" id="s-can">3.2% member overlap with existing</div>
+    </div>
+    <hr class="divider">
+    <div style="font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-bottom:6px">Nearby competitors</div>
+    <div id="s-comps">
+      <div class="comp-row"><span class="comp-name">Planet Fitness</span><span class="comp-dist">0.9 mi</span></div>
+      <div class="comp-row"><span class="comp-name">Orangetheory</span><span class="comp-dist">1.4 mi</span></div>
+      <div class="comp-row"><span class="comp-name">Anytime Fitness</span><span class="comp-dist">2.1 mi</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const gyms=[
+  {x:62,y:45,type:'own',name:'Mesa North',score:88,reach:'52,400',overlap:'8%',overlapSub:'1 gym sharing trade area',risk:'Low',riskClass:'risk-low',can:'1.8% member overlap',comps:[['Anytime Fitness','0.7 mi'],['LA Fitness','1.9 mi']]},
+  {x:34,y:60,type:'own',name:'Tempe Central',score:74,reach:'38,900',overlap:'19%',overlapSub:'3 gyms sharing trade area',risk:'Medium',riskClass:'risk-med',can:'8.1% member overlap',comps:[['Planet Fitness','0.5 mi'],['CrossFit Tempe','0.9 mi'],['YMCA','1.6 mi']]},
+  {x:72,y:72,type:'prospect',name:'Chandler South',score:82,reach:'47,200',overlap:'12%',overlapSub:'2 gyms sharing trade area',risk:'Low',riskClass:'risk-low',can:'3.2% member overlap',comps:[['Planet Fitness','0.9 mi'],['Orangetheory','1.4 mi'],['Anytime Fitness','2.1 mi']]},
+  {x:48,y:30,type:'big',name:'Planet Fitness',score:null,reach:'61,000',overlap:'22%',overlapSub:'4 gyms in trade area',risk:'High',riskClass:'risk-high',can:'14.5% overlap if nearby',comps:[['24 Hour Fitness','0.4 mi'],['Gold\'s Gym','1.1 mi']]},
+  {x:25,y:38,type:'big',name:'LA Fitness',score:null,reach:'44,000',overlap:'16%',overlapSub:'3 gyms in trade area',risk:'Medium',riskClass:'risk-med',can:'9.2% overlap if nearby',comps:[['Orangetheory','0.8 mi'],['F45','1.3 mi']]},
+  {x:55,y:55,type:'boutique',name:'Orangetheory',score:null,reach:'28,000',overlap:'9%',overlapSub:'1 gym sharing trade area',risk:'Low',riskClass:'risk-low',can:'2.1% overlap if nearby',comps:[['Yoga Works','0.6 mi'],['HIIT Studio','1.0 mi']]},
+  {x:82,y:48,type:'boutique',name:'CrossFit East',score:null,reach:'22,000',overlap:'7%',overlapSub:'1 gym sharing trade area',risk:'Low',riskClass:'risk-low',can:'1.4% overlap if nearby',comps:[['Anytime Fitness','1.2 mi']]},
+  {x:18,y:75,type:'boutique',name:'F45 Training',score:null,reach:'19,500',overlap:'11%',overlapSub:'2 gyms sharing trade area',risk:'Low',riskClass:'risk-low',can:'3.8% overlap if nearby',comps:[['Planet Fitness','1.1 mi'],['YMCA','0.9 mi']]},
+  {x:68,y:22,type:'big',name:'24 Hour Fitness',score:null,reach:'53,000',overlap:'18%',overlapSub:'3 gyms sharing trade area',risk:'Medium',riskClass:'risk-med',can:'7.6% overlap if nearby',comps:[['Orangetheory','0.7 mi'],['Gold\'s Gym','1.4 mi']]}
+];
+
+const colors={own:'#10b981',big:'#ef4444',boutique:'#f59e0b',prospect:'#3b82f6'};
+let selIdx=2;
+let driveRadius=140;
+
+function pinSVG(type,sel){
+  const c=colors[type];
+  if(type==='own') return `<svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11" fill="${c}" opacity="${sel?1:0.85}"/><text x="13" y="17.5" text-anchor="middle" font-size="13" fill="#fff" font-family="DM Sans">✦</text>${sel?'<circle cx="13" cy="13" r="11" fill="none" stroke="#fff" stroke-width="2.5"/>':''}</svg>`;
+  if(type==='prospect') return `<svg width="28" height="28" viewBox="0 0 28 28"><polygon points="14,3 17,11 26,11 19,16.5 21.5,25 14,20 6.5,25 9,16.5 2,11 11,11" fill="${c}" opacity="${sel?1:0.85}"/>${sel?'<polygon points="14,3 17,11 26,11 19,16.5 21.5,25 14,20 6.5,25 9,16.5 2,11 11,11" fill="none" stroke="#fff" stroke-width="1.5"/>':''}</svg>`;
+  return `<svg width="22" height="22" viewBox="0 0 22 22"><rect x="2" y="2" width="18" height="18" rx="4" fill="${c}" opacity="${sel?1:0.75}"/><text x="11" y="15.5" text-anchor="middle" font-size="11" fill="#fff" font-family="DM Sans">${type==='big'?'B':'b'}</text>${sel?'<rect x="2" y="2" width="18" height="18" rx="4" fill="none" stroke="#fff" stroke-width="2"/>':''}</svg>`;
+}
+
+function renderMap(){
+  const map=document.getElementById('map');
+  const mw=map.offsetWidth, mh=map.offsetHeight;
+  const hm=document.getElementById('heatmaps');
+  hm.innerHTML='';
+  const g=gyms[selIdx];
+  const px=g.x/100*mw, py=g.y/100*mh;
+  const heatEl=document.createElement('div');
+  heatEl.className='heatmap';
+  const r=driveRadius;
+  heatEl.style.cssText=`width:${r*2}px;height:${r*2}px;left:${px}px;top:${py}px;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(16,185,129,0.18) 0%,rgba(16,185,129,0.08) 50%,transparent 75%);border:1.5px solid rgba(16,185,129,0.35)`;
+  hm.appendChild(heatEl);
+
+  const pinsEl=document.getElementById('pins');
+  pinsEl.innerHTML='';
+  gyms.forEach((g2,i)=>{
+    const el=document.createElement('div');
+    el.className='gym-pin';
+    el.style.cssText=`left:${g2.x}%`;
+    el.style.top=`${g2.y}%`;
+    el.innerHTML=pinSVG(g2.type,i===selIdx);
+    el.title=g2.name;
+    el.onclick=()=>selectGym(i);
+    pinsEl.appendChild(el);
+    const lbl=document.createElement('div');
+    lbl.className='map-label';
+    lbl.style.cssText=`left:${g2.x}%;top:${g2.y}%`;
+    lbl.textContent=g2.name;
+    pinsEl.appendChild(lbl);
+  });
+}
+
+function selectGym(i){
+  selIdx=i;
+  renderMap();
+  updatePanel();
+}
+
+function updatePanel(){
+  const g=gyms[selIdx];
+  const scoreColor=g.score>=80?'#10b981':g.score>=60?'#f59e0b':'#ef4444';
+  document.getElementById('s-num').textContent=g.score||'—';
+  document.getElementById('s-num').style.color=scoreColor;
+  document.getElementById('s-fill').style.width=(g.score||50)+'%';
+  document.getElementById('s-fill').style.background=`linear-gradient(90deg,${scoreColor}aa,${scoreColor})`;
+  document.getElementById('s-verdict').textContent=g.score>=80?'Strong site — recommended':g.score>=60?'Viable — proceed with caution':'Competitor location';
+  document.getElementById('s-name-label').textContent=g.name;
+  document.getElementById('s-addr').textContent=`Mock location · ${g.type==='own'?'Your gym':g.type==='prospect'?'Prospect site':'Competitor'}`;
+  document.getElementById('s-reach').textContent=g.reach;
+  document.getElementById('s-overlap').textContent=g.overlap;
+  document.getElementById('s-overlap-sub').textContent=g.overlapSub;
+  document.getElementById('s-risk').textContent=g.risk;
+  document.getElementById('s-risk').className='risk-badge '+g.riskClass;
+  document.getElementById('s-can').textContent=g.can;
+  const compsEl=document.getElementById('s-comps');
+  compsEl.innerHTML=g.comps.map(c=>`<div class="comp-row"><span class="comp-name">${c[0]}</span><span class="comp-dist">${c[1]}</span></div>`).join('');
+}
+
+function setDrive(min,btn){
+  document.querySelectorAll('#dt-group .filt-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  driveRadius={5:90,10:140,15:190}[min]||140;
+  renderMap();
+}
+function setIncome(t,btn){
+  document.querySelectorAll('#inc-group .filt-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function toggleBrand(){const on=document.getElementById('brand-tog').checked;document.getElementById('s-overlap').textContent=on?gyms[selIdx].overlap.replace('%',' (adj)%'):gyms[selIdx].overlap}
+
+window.addEventListener('load',()=>{renderMap();updatePanel()});
+window.addEventListener('resize',()=>{renderMap()});
+</script>

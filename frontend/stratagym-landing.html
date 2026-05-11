@@ -1,0 +1,19 @@
+<section class="max-w-md mx-auto py-12 px-4">
+  <h2 class="text-2xl font-bold mb-2 text-center">Get early access to the analytics suite</h2>
+  <p class="text-gray-600 mb-6 text-center text-sm">We’ll send you a custom market report for your current zip code.</p>
+  
+  <form action="https://formspree.io/f/your-id" method="POST" class="space-y-4">
+    <input type="text" name="name" placeholder="Name" class="w-full border p-3 rounded-lg" required>
+    <input type="email" name="email" placeholder="Work Email" class="w-full border p-3 rounded-lg" required>
+    
+    <select name="intent" class="w-full border p-3 rounded-lg bg-white">
+      <option value="" disabled selected>Are you currently looking to expand?</option>
+      <option value="researching">Just researching</option>
+      <option value="active">Actively looking for a new location</option>
+    </select>
+    
+    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
+      Get My Market Report
+    </button>
+  </form>
+</section>

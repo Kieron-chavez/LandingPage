@@ -1,0 +1,216 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0e1117;--ink2:#3a3f4a;--ink3:#6b7280;
+  --paper:#f8f7f4;--card:#ffffff;--accent:#1a5c3a;--accent2:#2d8c5c;
+  --accent-light:#e8f5ef;--warn:#b45309;--warn-light:#fef3c7;
+  --border:#e2e0da;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.6}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* NAV */
+nav{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2.5rem;border-bottom:1px solid var(--border);background:var(--paper);position:sticky;top:0;z-index:100}
+.logo{font-family:'DM Serif Display',serif;font-size:1.3rem;letter-spacing:-0.02em;color:var(--ink)}
+.logo span{color:var(--accent2)}
+.nav-cta{background:var(--accent);color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;cursor:pointer;transition:background 0.2s}
+.nav-cta:hover{background:#154d31}
+
+/* HERO */
+.hero{max-width:900px;margin:0 auto;padding:5rem 2.5rem 4rem;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);color:var(--accent);font-size:0.78rem;font-weight:500;padding:0.4rem 1rem;border-radius:20px;margin-bottom:2rem;letter-spacing:0.03em}
+.hero-badge::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--accent2)}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,5vw,3.8rem);line-height:1.12;letter-spacing:-0.03em;color:var(--ink);margin-bottom:1.5rem}
+h1 em{font-style:italic;color:var(--accent2)}
+.hero-sub{font-size:1.15rem;color:var(--ink2);max-width:600px;margin:0 auto 2.5rem;font-weight:300;line-height:1.7}
+.hero-sub strong{font-weight:500;color:var(--ink)}
+.hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.btn-primary{background:var(--accent);color:#fff;border:none;padding:0.85rem 2rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;cursor:pointer;transition:all 0.2s}
+.btn-primary:hover{background:#154d31;transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--ink2);border:1.5px solid var(--border);padding:0.85rem 2rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:400;cursor:pointer;transition:all 0.2s}
+.btn-ghost:hover{border-color:var(--ink3);color:var(--ink)}
+.hero-caveat{font-size:0.8rem;color:var(--ink3)}
+
+/* STATS BAR */
+.stats-bar{display:flex;justify-content:center;gap:0;border:1px solid var(--border);border-radius:12px;max-width:640px;margin:3rem auto;overflow:hidden;background:var(--card)}
+.stat-item{flex:1;padding:1.25rem 1rem;text-align:center;border-right:1px solid var(--border)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'DM Serif Display',serif;font-size:1.9rem;color:var(--accent);display:block;line-height:1}
+.stat-label{font-size:0.78rem;color:var(--ink3);margin-top:4px;display:block}
+
+/* PAIN */
+.section{max-width:860px;margin:0 auto;padding:4rem 2.5rem}
+.section-tag{font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:1rem}
+h2{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1.2;letter-spacing:-0.025em;margin-bottom:1.25rem}
+.pain-card{background:var(--warn-light);border:1px solid #d97706;border-radius:12px;padding:2rem;margin:2rem 0}
+.pain-card p{color:#7c2d12;font-size:1.05rem;line-height:1.75}
+.pain-card strong{color:#92400e}
+.callout{font-size:1.5rem;font-family:'DM Serif Display',serif;font-style:italic;color:var(--warn);margin:2rem 0;padding-left:1.5rem;border-left:3px solid var(--warn)}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-top:2.5rem}
+.feat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.75rem}
+.feat-icon{width:40px;height:40px;background:var(--accent-light);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem}
+.feat-icon svg{width:20px;height:20px;stroke:var(--accent2);fill:none;stroke-width:1.8}
+.feat-card h3{font-size:1.05rem;font-weight:500;margin-bottom:0.5rem;color:var(--ink)}
+.feat-label{font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent2);margin-bottom:0.5rem;display:block}
+.feat-card p{font-size:0.9rem;color:var(--ink3);line-height:1.65}
+
+/* VISION */
+.vision-section{background:var(--ink);color:var(--paper);padding:5rem 2.5rem;text-align:center}
+.vision-inner{max-width:700px;margin:0 auto}
+.vision-tag{font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#6b7280;margin-bottom:1rem}
+.vision-section h2{color:#fff;margin-bottom:1rem}
+.vision-section p{color:#9ca3af;font-size:1.05rem;font-weight:300;line-height:1.75;max-width:560px;margin:0 auto 2rem}
+.future-pills{display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;margin-top:1.5rem}
+.pill{background:#1f2937;border:1px solid #374151;color:#d1d5db;font-size:0.8rem;padding:0.45rem 1rem;border-radius:20px}
+.pill.active{background:#1a5c3a;border-color:#2d8c5c;color:#a7f3d0}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,#0f3d27 0%,#1a5c3a 100%);padding:5rem 2.5rem;text-align:center}
+.cta-inner{max-width:580px;margin:0 auto}
+.cta-section h2{color:#fff;margin-bottom:0.75rem}
+.cta-section p{color:#a7f3d0;font-size:1.05rem;margin-bottom:2.5rem;font-weight:300}
+.email-form{display:flex;gap:0.75rem;max-width:420px;margin:0 auto 1rem;flex-wrap:wrap}
+.email-form input{flex:1;min-width:200px;padding:0.85rem 1.1rem;border-radius:8px;border:none;font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none}
+.email-form button{background:#fff;color:var(--accent);padding:0.85rem 1.5rem;border-radius:8px;border:none;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;white-space:nowrap;transition:all 0.2s}
+.email-form button:hover{background:#e8f5ef}
+.cta-perks{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:1.25rem}
+.perk{display:flex;align-items:center;gap:6px;color:#86efac;font-size:0.82rem}
+.perk::before{content:'';width:14px;height:14px;border-radius:50%;background:#22c55e;flex-shrink:0;display:inline-block}
+
+/* FOOTER */
+footer{padding:2rem 2.5rem;text-align:center;border-top:1px solid var(--border);color:var(--ink3);font-size:0.82rem}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero>*{animation:fadeUp 0.5s ease both}
+.hero>*:nth-child(1){animation-delay:0.05s}
+.hero>*:nth-child(2){animation-delay:0.12s}
+.hero>*:nth-child(3){animation-delay:0.2s}
+.hero>*:nth-child(4){animation-delay:0.28s}
+.hero>*:nth-child(5){animation-delay:0.35s}
+</style>
+
+<h2 class="sr-only">StrataGym — geospatial expansion intelligence for multi-location gym owners</h2>
+
+<nav>
+  <div class="logo">Strata<span>Gym</span></div>
+  <button class="nav-cta" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Early Access · Founding Member Program</div>
+  <h1>Stop guessing.<br><em>Expand with confidence.</em></h1>
+  <p class="hero-sub">One bad location can cost you <strong>$500k and your entire business.</strong> StrataGym gives you drive-time analysis and income data so your next lease is the obvious call — not a gut feeling.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join the Founding Member Waitlist</button>
+    <button class="btn-ghost" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">See how it works</button>
+  </div>
+  <p class="hero-caveat">No credit card. No commitment. You help shape the product.</p>
+</section>
+
+<div class="stats-bar" style="max-width:640px;margin:0 auto 4rem;display:flex">
+  <div class="stat-item"><span class="stat-num">$500k+</span><span class="stat-label">Average cost of a failed location</span></div>
+  <div class="stat-item"><span class="stat-num">73%</span><span class="stat-label">Of expansions rely on gut instinct</span></div>
+  <div class="stat-item"><span class="stat-num">12 min</span><span class="stat-label">Drive time = your real trade area</span></div>
+</div>
+
+<!-- PAIN -->
+<section class="section">
+  <p class="section-tag">The problem</p>
+  <h2>Your expansion process is running on vibes — and the stakes are catastrophic</h2>
+  <div class="pain-card">
+    <p>Most gym owners expanding to a second or third location do it the same way: <strong>drive around a neighborhood, check Google Maps for nearby gyms, and trust their instincts.</strong> Maybe they ask a commercial broker who gets paid on commission. Maybe they pull a demographic PDF from a website built in 2014.</p>
+  </div>
+  <p style="color:var(--ink2);line-height:1.75;margin-bottom:1.25rem">That worked fine when margins were comfortable. But you're signing a 5–10 year lease. You're committing hundreds of thousands in build-out costs. You're betting your existing locations on a hunch about traffic patterns and income levels in a zip code you visited twice.</p>
+  <div class="callout">"I thought I was opening in an underserved area. Turns out I just couldn't see the competitors from the highway."</div>
+  <p style="color:var(--ink2);line-height:1.75">One location that underperforms doesn't just bleed cash — it pulls attention, staff, and capital away from the gyms that are actually working. For a 2–5 location operator, that's an existential threat.</p>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features" style="background:var(--card);border-radius:16px;max-width:100%;padding:4rem 2.5rem">
+  <div style="max-width:860px;margin:0 auto">
+    <p class="section-tag">How it works</p>
+    <h2>See the data your competitors don't have</h2>
+    <p style="color:var(--ink2);font-size:1.05rem;max-width:580px;line-height:1.75">StrataGym turns messy geospatial data into a single site score — so you walk into every lease negotiation knowing whether it's a yes or a no.</p>
+    <div class="features-grid">
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 6c0 0 4-2 9 0 5 2 9 0 9 0v14s-4 2-9 0-9 0-9 0V6z"/><path d="M12 6v14"/></svg>
+        </div>
+        <span class="feat-label">Heatmaps</span>
+        <h3>See where the money actually lives</h3>
+        <p>Visualize household income density overlaid on your target market. Stop guessing whether the neighborhood can afford a $50/month membership — see it on a map.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7" stroke-dasharray="3 2"/><circle cx="12" cy="12" r="11" stroke-dasharray="2 3"/></svg>
+        </div>
+        <span class="feat-label">Drive-time radiuses</span>
+        <h3>Traffic reality, not crow-flies math</h3>
+        <p>A gym 2 miles away might take 22 minutes in rush hour traffic — and that's your actual competition. Our drive-time analysis shows the real boundaries of your trade area.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <span class="feat-label">Cannibalization tool</span>
+        <h3>Protect your existing turf</h3>
+        <p>Before you sign, see how much of your new location's potential membership pool overlaps with your existing gyms. Grow your network — don't split it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION -->
+<section class="vision-section">
+  <div class="vision-inner">
+    <p class="vision-tag">Coming next</p>
+    <h2>The map is just the beginning</h2>
+    <p>We're building toward ML-powered membership projections — a model that estimates your 12-month member ramp based on trade area demographics, competitor density, and performance data from similar markets. You won't just see the data. You'll see the forecast.</p>
+    <div class="future-pills">
+      <span class="pill active">Drive-time heatmaps</span>
+      <span class="pill active">Site score engine</span>
+      <span class="pill active">Cannibalization alerts</span>
+      <span class="pill">ML membership forecast</span>
+      <span class="pill">Competitor rate intelligence</span>
+      <span class="pill">Lease risk score</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="waitlist">
+  <div class="cta-inner">
+    <h2>Join the Founding Member Waitlist</h2>
+    <p>Be one of the first 50 operators to shape StrataGym. Founding members get lifetime discounted pricing, direct access to the product team, and first say in what we build next.</p>
+    <div class="email-form">
+      <input type="email" id="email-input" placeholder="your@gym.com" />
+      <button onclick="handleSubmit()">Reserve my spot</button>
+    </div>
+    <div class="cta-perks">
+      <span class="perk">Founding member pricing</span>
+      <span class="perk">Shape the roadmap</span>
+      <span class="perk">No credit card required</span>
+    </div>
+    <p id="confirm-msg" style="color:#86efac;margin-top:1.25rem;font-size:0.9rem;display:none">You're on the list. We'll be in touch soon.</p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 StrataGym · Built for gym operators who take expansion seriously.</p>
+</footer>
+
+<script>
+function handleSubmit(){
+  const v=document.getElementById('email-input').value;
+  if(!v||!v.includes('@')){document.getElementById('email-input').style.outline='2px solid #f87171';return}
+  document.getElementById('email-input').style.outline='none';
+  document.getElementById('confirm-msg').style.display='block';
+  document.getElementById('email-input').value='';
+}
+</script>
