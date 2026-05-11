@@ -1,0 +1,385 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f1923;--surf:#1a2535;--surf2:#222f42;--surf3:#2a3a52;
+  --bd:#2a3a52;--bd2:#3a4f6a;
+  --tx:#f0f4f8;--tx2:#8fa5be;--tx3:#4d6480;
+  --gr:#00d68f;--gr2:#00b377;--grdim:#003d29;
+  --am:#ffb547;--re:#ff5c5c;--bl:#4da6ff;--pu:#a78bfa;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-size:13px;overflow:hidden}
+.shell{display:grid;grid-template-columns:176px 1fr 228px;height:600px}
+
+.sidebar{background:var(--surf);border-right:1px solid var(--bd);padding:14px 12px;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
+.logo{font-size:1rem;font-weight:600;padding-bottom:11px;border-bottom:1px solid var(--bd);letter-spacing:-0.01em}
+.logo span{color:var(--gr)}
+.s-lbl{font-size:0.6rem;letter-spacing:0.11em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px;display:block;font-weight:500}
+.chip-stack{display:flex;flex-direction:column;gap:3px}
+.chip{background:var(--surf2);border:1px solid var(--bd2);color:var(--tx2);border-radius:5px;padding:6px 9px;font-family:'DM Sans',sans-serif;font-size:0.75rem;cursor:pointer;text-align:left;transition:all 0.12s;display:flex;align-items:center;gap:7px;font-weight:400}
+.chip.on{background:var(--grdim);border-color:var(--gr2);color:var(--gr);font-weight:500}
+.chip:hover:not(.on){border-color:var(--bd2);color:var(--tx);background:var(--surf3)}
+.chip-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.hr{border:none;border-top:1px solid var(--bd)}
+.leg-row{display:flex;align-items:center;gap:8px;font-size:0.72rem;color:var(--tx2);margin-bottom:4px;line-height:1.3}
+.ld{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.ld.sq{border-radius:2px}
+.map-hint-pill{display:flex;align-items:center;gap:5px;font-size:0.68rem;color:var(--tx3);margin-top:auto;padding:6px 8px;border:1px dashed var(--bd2);border-radius:5px;line-height:1.4}
+
+.map-area{position:relative;overflow:hidden;background:#121e2b}
+#lmap{width:100%;height:100%}
+.map-badge{position:absolute;bottom:10px;left:10px;background:rgba(15,25,35,0.88);border:1px solid var(--bd2);border-radius:5px;padding:4px 9px;font-size:0.65rem;color:var(--tx3);z-index:700;pointer-events:none}
+
+.right{background:var(--surf);border-left:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden}
+
+.empty-panel{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:1.5rem;text-align:center}
+.empty-ring{width:48px;height:48px;border-radius:50%;border:1.5px dashed var(--bd2);display:flex;align-items:center;justify-content:center}
+
+.score-panel{flex:1;display:flex;flex-direction:column;overflow-y:auto}
+
+.score-hero{padding:16px 14px 12px;border-bottom:1px solid var(--bd);background:var(--surf2)}
+.score-top-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.site-name-block .site-name{font-size:0.88rem;font-weight:600;color:var(--tx);line-height:1.2}
+.site-name-block .site-type{font-size:0.67rem;color:var(--tx3);margin-top:2px;text-transform:uppercase;letter-spacing:0.07em}
+.grade-badge{width:46px;height:46px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.grade-letter{font-size:1.5rem;font-weight:600;line-height:1;font-family:'DM Mono',monospace}
+.grade-sub{font-size:0.55rem;letter-spacing:0.05em;margin-top:1px;opacity:0.75}
+
+.score-bar-row{display:flex;align-items:center;gap:8px}
+.score-bar-track{flex:1;height:6px;background:var(--bd);border-radius:3px;overflow:hidden}
+.score-bar-fill{height:100%;border-radius:3px;transition:width 0.6s cubic-bezier(.4,0,.2,1)}
+.score-num-lbl{font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:500;min-width:38px;text-align:right;color:var(--tx2)}
+.verdict-text{font-size:0.72rem;color:var(--tx3);margin-top:6px}
+
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bd);border-bottom:1px solid var(--bd)}
+.met{background:var(--surf);padding:10px 12px}
+.met-lbl{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.09em;color:var(--tx3);margin-bottom:3px;font-weight:500}
+.met-val{font-size:1.1rem;font-weight:600;line-height:1.1;font-family:'DM Mono',monospace}
+.met-sub{font-size:0.65rem;color:var(--tx3);margin-top:2px}
+
+.signal-section{padding:10px 12px;border-bottom:1px solid var(--bd)}
+.signal-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.signal-row:last-child{margin-bottom:0}
+.signal-bar-wrap{flex:1;height:4px;background:var(--bd);border-radius:2px;overflow:hidden}
+.signal-bar{height:100%;border-radius:2px;transition:width 0.5s ease}
+.signal-name{font-size:0.7rem;color:var(--tx2);min-width:72px}
+.signal-pct{font-size:0.68rem;font-family:'DM Mono',monospace;color:var(--tx3);min-width:28px;text-align:right}
+
+.risk-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--bd)}
+.risk-lbl{font-size:0.7rem;color:var(--tx2)}
+.rbadge{padding:3px 10px;border-radius:20px;font-size:0.68rem;font-weight:600;letter-spacing:0.02em}
+.rl{background:#003d29;color:#00d68f;border:1px solid #005a3d}
+.rm{background:#3d2800;color:#ffb547;border:1px solid #5a3d00}
+.rh{background:#3d0000;color:#ff5c5c;border:1px solid #5a0000}
+
+.comps-section{padding:10px 12px}
+.comp-item{display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--bd)}
+.comp-item:last-child{border-bottom:none}
+.comp-name{font-size:0.72rem;color:var(--tx2)}
+.comp-dist{font-size:0.68rem;font-family:'DM Mono',monospace;color:var(--tx3)}
+
+.cta-strip{margin-top:auto;padding:10px 12px;background:var(--grdim);border-top:1px solid var(--gr2)}
+.cta-strip p{font-size:0.7rem;color:#4dffc4;line-height:1.45}
+.cta-strip strong{color:var(--gr);font-weight:600}
+.map-area::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,0.10);
+  pointer-events:none;
+  z-index:400;
+}
+
+</style>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<div class="shell">
+
+<div class="sidebar">
+  <div class="logo">Strata<span>Gym</span></div>
+
+  <div>
+    <span class="s-lbl">Overlays</span>
+    <div class="chip-stack">
+      <button class="chip on" id="chip-income" onclick="toggleOL('income',this)">
+        <span class="chip-dot" style="background:#ffb547"></span>Income density
+      </button>
+      <button class="chip" id="chip-pop" onclick="toggleOL('pop',this)">
+        <span class="chip-dot" style="background:#4da6ff"></span>Population density
+      </button>
+      <button class="chip" id="chip-comp" onclick="toggleOL('comp',this)">
+        <span class="chip-dot" style="background:#ff5c5c"></span>Competitor zones
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <span class="s-lbl">Drive time</span>
+    <div class="chip-stack">
+      <button class="chip" onclick="setDrive(5,this)">5 min</button>
+      <button class="chip on" onclick="setDrive(10,this)">10 min</button>
+      <button class="chip" onclick="setDrive(15,this)">15 min</button>
+    </div>
+  </div>
+
+  <hr class="hr"/>
+
+  <div>
+    <span class="s-lbl">Legend</span>
+    <div class="leg-row"><span class="ld" style="background:#00d68f"></span>Your gym</div>
+    <div class="leg-row"><span class="ld" style="background:#4da6ff"></span>Prospect site</div>
+    <div class="leg-row"><span class="ld sq" style="background:#ff5c5c"></span>Big box gym</div>
+    <div class="leg-row"><span class="ld" style="background:#ffb547"></span>Boutique gym</div>
+    <div class="leg-row"><span class="ld" style="background:#a78bfa"></span>Click-to-score</div>
+  </div>
+
+  <div class="map-hint-pill">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#4d6480" stroke-width="1.2"/><path d="M6 4v4M6 3v.5" stroke="#4d6480" stroke-width="1.2" stroke-linecap="round"/></svg>
+    Click any spot on the map to score a new site
+  </div>
+</div>
+
+<div class="map-area">
+  <div id="lmap"></div>
+  <div class="map-badge">Phoenix Metro · mock data</div>
+</div>
+
+<div class="right" id="right-panel">
+  <div class="empty-panel" id="empty-panel">
+    <div class="empty-ring">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3a7 7 0 100 14A7 7 0 0010 3z" stroke="#4d6480" stroke-width="1.3"/><path d="M10 7v4l2.5 2.5" stroke="#4d6480" stroke-width="1.3" stroke-linecap="round"/></svg>
+    </div>
+    <p style="font-size:0.78rem;color:#4d6480;line-height:1.6">Click a pin or<br>anywhere on the map</p>
+  </div>
+  <div class="score-panel" id="score-panel" style="display:none">
+    <div class="score-hero">
+      <div class="score-top-row">
+        <div class="site-name-block">
+          <div class="site-name" id="sc-name">—</div>
+          <div class="site-type" id="sc-type">—</div>
+        </div>
+        <div class="grade-badge" id="grade-badge">
+          <span class="grade-letter" id="grade-letter">—</span>
+          <span class="grade-sub">GRADE</span>
+        </div>
+      </div>
+      <div class="score-bar-row">
+        <div class="score-bar-track"><div class="score-bar-fill" id="score-bar"></div></div>
+        <span class="score-num-lbl" id="score-num">—</span>
+      </div>
+      <div class="verdict-text" id="sc-verdict"></div>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="met">
+        <div class="met-lbl">Reach</div>
+        <div class="met-val" id="m-reach" style="color:#00d68f">—</div>
+        <div class="met-sub">adults in trade area</div>
+      </div>
+      <div class="met">
+        <div class="met-lbl">Comp. overlap</div>
+        <div class="met-val" id="m-ov" style="color:#ffb547">—</div>
+        <div class="met-sub" id="m-ov-sub"></div>
+      </div>
+    </div>
+
+    <div class="signal-section">
+      <span class="s-lbl" style="margin-bottom:8px">Signal breakdown</span>
+      <div class="signal-row">
+        <span class="signal-name">Income fit</span>
+        <div class="signal-bar-wrap"><div class="signal-bar" id="sig-income" style="background:#ffb547"></div></div>
+        <span class="signal-pct" id="sig-income-v"></span>
+      </div>
+      <div class="signal-row">
+        <span class="signal-name">Pop. density</span>
+        <div class="signal-bar-wrap"><div class="signal-bar" id="sig-pop" style="background:#4da6ff"></div></div>
+        <span class="signal-pct" id="sig-pop-v"></span>
+      </div>
+      <div class="signal-row">
+        <span class="signal-name">Drive access</span>
+        <div class="signal-bar-wrap"><div class="signal-bar" id="sig-drive" style="background:#a78bfa"></div></div>
+        <span class="signal-pct" id="sig-drive-v"></span>
+      </div>
+      <div class="signal-row">
+        <span class="signal-name">Low comp.</span>
+        <div class="signal-bar-wrap"><div class="signal-bar" id="sig-comp" style="background:#00d68f"></div></div>
+        <span class="signal-pct" id="sig-comp-v"></span>
+      </div>
+    </div>
+
+    <div class="risk-row">
+      <span class="risk-lbl">Cannibalization risk</span>
+      <span class="rbadge" id="risk-badge"></span>
+    </div>
+
+    <div class="comps-section">
+      <span class="s-lbl" style="margin-bottom:6px">Nearby gyms</span>
+      <div id="comps-list"></div>
+    </div>
+
+    <div class="cta-strip" id="cta-strip" style="display:none">
+      <p><strong>Strong opportunity detected.</strong> Get the full data layer — income heat, drive-time routing, and ML membership forecast.</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const GYMS=[
+  {lat:33.452,lng:-111.955,type:'own',name:'Your Location',score:88,reach:'52,400',ov:'8%',ovSub:'2 competitors',risk:'Low',riskC:'rl',comps:[['Competitor 1','1.1 mi'],['Competitor 2','1.8 mi']],signals:{income:84,pop:70,drive:90,comp:88}},
+  {lat:33.438,lng:-111.925,type:'prospect',name:'Potential Site A',score:82,reach:'47,200',ov:'12%',ovSub:'3 competitors',risk:'Low',riskC:'rl',comps:[['Competitor 1','0.8 mi'],['Competitor 3','1.4 mi']],signals:{income:78,pop:65,drive:85,comp:80}},
+  {lat:33.421,lng:-111.948,type:'prospect',name:'Potential Site B',score:74,reach:'38,900',ov:'19%',ovSub:'4 competitors',risk:'Medium',riskC:'rm',comps:[['Competitor 2','1.0 mi'],['Competitor 4','1.7 mi']],signals:{income:68,pop:72,drive:75,comp:58}},
+  {lat:33.466,lng:-111.932,type:'big',name:'Competitor 1',score:null,reach:'61,000',ov:'22%',ovSub:'High saturation',risk:'High',riskC:'rh',comps:[['Competitor 2','0.9 mi']],signals:{income:80,pop:85,drive:88,comp:20}},
+  {lat:33.445,lng:-111.902,type:'big',name:'Competitor 2',score:null,reach:'44,000',ov:'16%',ovSub:'Moderate saturation',risk:'Medium',riskC:'rm',comps:[['Competitor 3','1.3 mi']],signals:{income:72,pop:68,drive:80,comp:45}},
+  {lat:33.425,lng:-111.920,type:'boutique',name:'Competitor 3',score:null,reach:'28,000',ov:'9%',ovSub:'Boutique presence',risk:'Low',riskC:'rl',comps:[['Competitor 1','1.2 mi']],signals:{income:65,pop:55,drive:70,comp:75}},
+  {lat:33.474,lng:-111.968,type:'boutique',name:'Competitor 4',score:null,reach:'22,000',ov:'7%',ovSub:'Boutique presence',risk:'Low',riskC:'rl',comps:[['Competitor 2','1.0 mi']],signals:{income:60,pop:50,drive:65,comp:82}}
+];
+
+const OL={
+income:[
+  {lat:33.458,lng:-111.948,r:450,color:'rgba(255,181,71,0.30)'},
+  {lat:33.441,lng:-111.912,r:380,color:'rgba(255,181,71,0.24)'},
+  {lat:33.472,lng:-111.925,r:320,color:'rgba(255,181,71,0.20)'},
+  {lat:33.427,lng:-111.940,r:280,color:'rgba(255,181,71,0.18)'}
+],
+
+pop:[
+  {lat:33.452,lng:-111.935,r:500,color:'rgba(77,166,255,0.28)'},
+  {lat:33.435,lng:-111.952,r:360,color:'rgba(77,166,255,0.22)'},
+  {lat:33.462,lng:-111.960,r:290,color:'rgba(77,166,255,0.18)'}
+],
+
+comp:[
+  {lat:33.466,lng:-111.932,r:600,color:'rgba(255,92,92,0.24)'},
+  {lat:33.445,lng:-111.902,r:480,color:'rgba(255,92,92,0.20)'},
+  {lat:33.410,lng:-111.920,r:350,color:'rgba(255,92,92,0.16)'}
+]};
+
+const COLORS={own:'#00d68f',prospect:'#4da6ff',big:'#ff5c5c',boutique:'#ffb547',click:'#a78bfa'};
+const TYPE_LABELS={own:'Your location',prospect:'Prospect site',big:'Competitor · big box',boutique:'Competitor · boutique',click:'Custom analysis'};
+
+let map,activeOL={income:true,pop:false,comp:false},driveM=10,driveR={5:400,10:700,15:1100};
+let circleL=null,analysisM=null,olCircles=[];
+
+function gradeFromScore(s){
+  if(s>=90)return{l:'A+',bg:'#003d29',color:'#00d68f'};
+  if(s>=82)return{l:'A',bg:'#003d29',color:'#00d68f'};
+  if(s>=74)return{l:'B+',bg:'#002a3d',color:'#4da6ff'};
+  if(s>=66)return{l:'B',bg:'#002a3d',color:'#4da6ff'};
+  if(s>=58)return{l:'C+',bg:'#3d2800',color:'#ffb547'};
+  if(s>=50)return{l:'C',bg:'#3d2800',color:'#ffb547'};
+  return{l:'D',bg:'#3d0000',color:'#ff5c5c'};
+}
+
+function buildPin(type,name){
+  const c=COLORS[type];
+  const isSquare=type==='big';
+  const icon=type==='own'?'★':type==='prospect'?'◎':type==='click'?'+':'';
+  const showLetter=(type==='big'||type==='boutique');
+  return `<div style="display:flex;flex-direction:column;align-items:center;gap:0;transform:translateY(-4px)">
+    <div style="width:26px;height:26px;border-radius:${isSquare?'5px':'50%'};background:${c};border:2px solid rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;color:#fff;font-size:${type==='own'?'11':'12'}px;font-weight:600;font-family:DM Mono,monospace">${showLetter?(type==='big'?'B':'b'):icon}</div>
+    <div style="margin-top:5px;padding:3px 8px;border-radius:4px;background:rgba(15,25,35,0.92);border:1px solid ${c}44;color:${c};font-size:10px;font-weight:500;white-space:nowrap;font-family:DM Sans,sans-serif;letter-spacing:0.01em;max-width:110px;overflow:hidden;text-overflow:ellipsis">${name}</div>
+  </div>`;
+}
+
+function init(){
+  map=L.map('lmap',{zoomControl:false,attributionControl:false});
+    map.dragging.disable();
+    map.scrollWheelZoom.disable();
+    map.doubleClickZoom.disable();
+    map.touchZoom.disable();
+    map.boxZoom.disable();
+    map.keyboard.disable();
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd'}).addTo(map);
+  L.control.zoom({position:'bottomright'}).addTo(map);
+  L.control.attribution({prefix:'© CartoDB'}).addTo(map);
+  GYMS.forEach(g=>{
+    const icon=L.divIcon({html:buildPin(g.type,g.name),className:'',iconSize:[1,1],iconAnchor:[2,8]});
+    L.marker([g.lat,g.lng],{icon}).addTo(map).on('click',e=>{L.DomEvent.stopPropagation(e);showSite(g)});
+  });
+map.invalidateSize();
+map.fitBounds(
+  L.latLngBounds(GYMS.map(g => [g.lat, g.lng])),
+  { paddingTopLeft: [60, -65], paddingBottomRight: [60, 40], maxZoom: 12.9 }
+);
+
+  drawOL();
+  map.on('click',e=>showSite(generateSite(e.latlng.lat,e.latlng.lng)));
+}
+
+function generateSite(lat,lng){
+  const s=Math.abs(Math.round((lat*1000+lng*1000)*7))%100;
+  const score=Math.max(32,Math.min(94,48+s*0.46));
+  const sc=Math.round(score);
+  return{lat,lng,type:'click',name:'New analysis point',score:sc,
+    reach:((25000+s*480)/1000).toFixed(1)+'k',
+    ov:Math.round(6+s*0.22)+'%',ovSub:'est. competitors',
+    risk:sc>=75?'Low':sc>=58?'Medium':'High',
+    riskC:sc>=75?'rl':sc>=58?'rm':'rh',
+    comps:[['Nearest gym',Math.round((0.4+s*0.015)*10)/10+' mi'],['2nd nearest',Math.round((0.9+s*0.018)*10)/10+' mi']],
+    signals:{income:Math.round(40+s*0.5),pop:Math.round(35+s*0.55),drive:Math.round(50+s*0.44),comp:Math.round(30+s*0.6)}
+  };
+}
+
+function showSite(g){
+  if(circleL){map.removeLayer(circleL)}
+  if(analysisM){map.removeLayer(analysisM)}
+  const c=COLORS[g.type]||'#a78bfa';
+  circleL=L.circle([g.lat,g.lng],{radius:driveR[driveM],color:c,fillColor:c,fillOpacity:0.07,weight:1.5,dashArray:'5 4'}).addTo(map);
+  if(g.type==='click'){
+    const icon=L.divIcon({html:buildPin('click',g.name),className:'',iconSize:[1,1],iconAnchor:[2,8]});
+    analysisM=L.marker([g.lat,g.lng],{icon}).addTo(map);
+  }
+  const sc=g.score||55;
+  const gd=gradeFromScore(sc);
+  const scoreColor=sc>=80?'#00d68f':sc>=65?'#4da6ff':sc>=50?'#ffb547':'#ff5c5c';
+  document.getElementById('empty-panel').style.display='none';
+  const sp=document.getElementById('score-panel');sp.style.display='flex';
+  document.getElementById('sc-name').textContent=g.name;
+  document.getElementById('sc-type').textContent=TYPE_LABELS[g.type]||'Site';
+  const gb=document.getElementById('grade-badge');
+  gb.style.background=gd.bg;gb.style.border='1px solid '+gd.color+'55';
+  const gl=document.getElementById('grade-letter');
+  gl.textContent=gd.l;gl.style.color=gd.color;
+  document.getElementById('score-bar').style.width=sc+'%';
+  document.getElementById('score-bar').style.background=scoreColor;
+  document.getElementById('score-num').textContent=sc+' / 100';
+  document.getElementById('score-num').style.color=scoreColor;
+  document.getElementById('sc-verdict').textContent=sc>=80?'Excellent — strong go signal':sc>=65?'Good — worth a deeper look':sc>=50?'Marginal — review carefully':'Weak — significant risk factors';
+  document.getElementById('m-reach').textContent=g.reach;
+  document.getElementById('m-ov').textContent=g.ov;
+  document.getElementById('m-ov-sub').textContent=g.ovSub;
+  const rb=document.getElementById('risk-badge');rb.textContent=g.risk;rb.className='rbadge '+g.riskC;
+  document.getElementById('comps-list').innerHTML=g.comps.map(c=>`<div class="comp-item"><span class="comp-name">${c[0]}</span><span class="comp-dist">${c[1]}</span></div>`).join('');
+  const sig=g.signals||{income:60,pop:60,drive:60,comp:60};
+  ['income','pop','drive','comp'].forEach(k=>{
+    const v=sig[k];
+    document.getElementById('sig-'+k).style.width=v+'%';
+    document.getElementById('sig-'+k+'-v').textContent=v+'%';
+  });
+  document.getElementById('cta-strip').style.display=sc>=78?'block':'none';
+}
+
+function drawOL(){
+  olCircles.forEach(c=>map.removeLayer(c));olCircles=[];
+  Object.keys(activeOL).forEach(k=>{
+    if(!activeOL[k])return;
+    OL[k].forEach(o=>{
+      const c=L.circle([o.lat,o.lng],{radius:o.r,color:'transparent',fillColor:o.color,fillOpacity:1,weight:0}).addTo(map);
+      olCircles.push(c);
+    });
+  });
+}
+function toggleOL(k,btn){activeOL[k]=!activeOL[k];btn.classList.toggle('on',activeOL[k]);drawOL()}
+function setDrive(min,btn){
+  document.querySelectorAll('.chip-stack .chip').forEach(b=>{if(['5 min','10 min','15 min'].includes(b.textContent.trim()))b.classList.remove('on')});
+  btn.classList.add('on');driveM=min;
+  if(circleL){const ll=circleL.getLatLng();const c2=circleL.options.color;map.removeLayer(circleL);circleL=L.circle(ll,{radius:driveR[min],color:c2,fillColor:c2,fillOpacity:0.07,weight:1.5,dashArray:'5 4'}).addTo(map)}
+}
+window.addEventListener('load',init);
+</script>

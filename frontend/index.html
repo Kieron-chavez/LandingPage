@@ -1,0 +1,370 @@
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+
+--ink:#0e1117;--ink2:#3a3f4a;--ink3:#6b7280;
+
+--paper:#f8f7f4;--card:#ffffff;--accent:#1a5c3a;--accent2:#2d8c5c;
+
+--accent-light:#e8f5ef;--warn:#b45309;--warn-light:#fef3c7;
+
+--border:#e2e0da;
+
+}
+
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);line-height:1.6}
+
+
+
+/* NAV */
+
+nav{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 2.5rem;border-bottom:1px solid var(--border);background:var(--paper);position:sticky;top:0;z-index:100}
+
+.logo{font-family:'DM Serif Display',serif;font-size:1.3rem;letter-spacing:-0.02em;color:var(--ink)}
+
+.logo span{color:var(--accent2)}
+
+
+
+/* HERO */
+
+.hero{max-width:900px;margin:0 auto;padding:4rem 1.5rem 2rem;text-align:center}
+
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);color:var(--accent);font-size:0.75rem;font-weight:600;padding:0.4rem 0.9rem;border-radius:20px;margin-bottom:1.5rem;text-transform:uppercase}
+
+h1{font-family:'DM Serif Display',serif;font-size:clamp(2.5rem,6vw,4rem);line-height:1.05;letter-spacing:-0.03em;color:var(--ink);margin-bottom:1.5rem}
+
+h1 em{font-style:italic;color:var(--accent2)}
+
+.hero-sub{font-size:1.25rem;color:var(--ink2);max-width:650px;margin:0 auto 2.5rem;font-weight:300}
+
+
+
+/* DEMO AREA with improved spacing */
+
+.demo-container {
+
+max-width: 1000px;
+
+margin: 0 auto 4rem;
+
+padding: 2rem; /* Added spacing around the demo */
+
+background: #e2e0da50;
+
+border-radius: 24px;
+
+}
+
+.demo-frame {
+
+border-radius: 12px;
+
+overflow: hidden;
+
+border: 1px solid var(--border);
+
+background: #111827;
+
+box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+
+height: 500px;
+
+}
+
+
+
+/* FORM BOX */
+
+.form-card {
+
+max-width: 500px;
+
+margin: 0 auto 4rem;
+
+background: var(--card);
+
+padding: 2.5rem;
+
+border-radius: 16px;
+
+border: 1px solid var(--border);
+
+box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+
+}
+
+.form-group { text-align: left; margin-bottom: 1rem; }
+
+.form-group label { display: block; font-size: 0.85rem; font-weight: 500; margin-bottom: 0.4rem; color: var(--ink2); }
+
+input, select {
+
+width: 100%;
+
+padding: 0.85rem;
+
+border-radius: 8px;
+
+border: 1px solid var(--border);
+
+font-family: inherit;
+
+font-size: 1rem;
+
+background: #fafafa;
+
+}
+
+.btn-submit {
+
+width: 100%;
+
+background: var(--accent);
+
+color: #fff;
+
+border: none;
+
+padding: 1rem;
+
+border-radius: 8px;
+
+font-size: 1rem;
+
+font-weight: 600;
+
+cursor: pointer;
+
+margin-top: 1rem;
+
+transition: 0.2s;
+
+}
+
+.btn-submit:hover { background: #154d31; }
+
+
+
+/* REASONS/FEATS simplified */
+
+.quick-grid {
+
+display: grid;
+
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+gap: 2rem;
+
+max-width: 900px;
+
+margin: 0 auto 5rem;
+
+padding: 0 1.5rem;
+
+}
+
+.quick-feat h3 { font-family: 'DM Serif Display', serif; font-size: 1.2rem; margin-bottom: 0.5rem; }
+
+.quick-feat p { font-size: 0.9rem; color: var(--ink3); }
+
+
+
+footer{padding:3rem 2.5rem;text-align:center;border-top:1px solid var(--border);color:var(--ink3);font-size:0.82rem}
+
+</style>
+
+
+
+<nav>
+
+<div class="logo">Strata<span>Gym</span></div>
+
+<div style="font-size: 0.85rem; color: var(--ink3)">Expansion Intelligence</div>
+
+</nav>
+
+
+
+<section class="hero">
+
+<div class="hero-badge">Founding Member Program Open</div>
+
+<h1>Expand your gym <em>without the gamble.</em></h1>
+
+<p class="hero-sub">We turn complex drive-time and income data into a simple "Site Score" so you never sign a bad lease again.</p>
+
+</section>
+
+
+
+<!-- THE HERO DEMO -->
+
+<div class="demo-container">
+
+<div class="demo-frame">
+
+<iframe src="demo.html" style="width: 100%; height: 100%; border: none;" title="StrataGym Demo"></iframe>
+
+</div>
+
+</div>
+
+
+
+<!-- THE LEAD CAPTURE -->
+
+<style>
+  .stage-group { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+  .stage-opt { 
+    border: 1.5px solid var(--border); 
+    padding: 12px 16px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    font-size: 0.95rem; 
+    transition: all 0.2s; 
+    background: #fff;
+  }
+  .stage-opt:hover { border-color: var(--accent2); background: var(--accent-light); }
+  .stage-opt.selected { border-color: var(--accent2); background: var(--accent-light); font-weight: 500; }
+  .stage-dot { width: 12px; height: 12px; border: 2px solid var(--border); border-radius: 50%; }
+  .stage-opt.selected .stage-dot { background: var(--accent2); border-color: var(--accent2); }
+  
+  .trust-row { display: flex; justify-content: space-between; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+  .trust-item { font-size: 0.75rem; color: var(--ink3); display: flex; align-items: center; gap: 4px; }
+  .trust-check { width: 14px; height: 14px; background: #2d8c5c; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .trust-check svg { width: 8px; stroke: #fff; stroke-width: 2.5; fill: none; }
+  
+</style>
+
+<section class="form-card" id="form-box">
+    <div style="text-align: center; margin-bottom: 1.5rem;">
+        <h2 style="font-family: 'DM Serif Display', serif; margin-bottom: 0.5rem;">Built to solve the expansion gamble</h2>
+        <p style="font-size: 0.9rem; color: var(--ink3);">We're building a dedicated tool to help gym owners verify their next lease before they sign it. No spreadsheets, no guesswork, just a clear score for every potential site.</p>
+    </div>
+
+    <div class="form-group">
+        <label>Your name</label>
+        <input type="text" id="f-name" placeholder="Alex Chen" />
+    </div>
+    <div class="form-group">
+        <label>Work email</label>
+        <input type="email" id="f-email" placeholder="alex@yourgym.com" />
+    </div>
+
+    <div class="form-group">
+<label>Where is your business right now?</label>
+        <div class="stage-group">
+            <div class="stage-opt" onclick="pick(this,'looking')"><div class="stage-dot"></div>I'm actively scouting a new location now</div>
+            <div class="stage-opt" onclick="pick(this,'planning')"><div class="stage-dot"></div>I'm planning to grow in the next year</div>
+            <div class="stage-opt" onclick="pick(this,'research')"><div class="stage-dot"></div>Researching options, no timeline yet</div>
+        </div>
+    </div>
+
+    <button class="btn-submit" style="margin-top:20px" onclick="submitForm()">Keep me updated</button>
+
+    <div class="trust-row">
+        <span class="trust-item"><div class="trust-check"><svg viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2"/></svg></div>Built for operators</span>
+        <span class="trust-item"><div class="trust-check"><svg viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2"/></svg></div>No spam</span>
+        <span class="trust-item"><div class="trust-check"><svg viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2"/></svg></div>Just better data</span>
+    </div>
+</section>
+
+<script>
+let selectedStage = '';
+
+function pick(el, val) {
+    document.querySelectorAll('.stage-opt').forEach(opt => opt.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedStage = val;
+}
+
+function submitForm() {
+    const name = document.getElementById('f-name').value;
+    const email = document.getElementById('f-email').value;
+    
+    if(!name || !email || !selectedStage) {
+        alert("Please complete the form.");
+        return;
+    }
+    
+    // Success logic here
+    alert("Success! You're in the loop.");
+}
+</script>
+
+<!-- THE BENEFITS (SIMPLIFIED) -->
+
+<section class="quick-grid">
+
+<div class="quick-feat">
+
+<h3>Data over feeling</h3>
+
+<p>StrataGym replaces that hunch with verified drive-time data and actual household income density.</p>
+
+</div>
+
+<div class="quick-feat">
+
+<h3>Pre-vet your next lease</h3>
+
+<p>Avoid the $500k mistake. Use the Site Score to see if a location is viable before you even call the commercial broker.</p>
+
+</div>
+
+<div class="quick-feat">
+
+<h3>Protect your existing gyms</h3>
+
+<p>Don't split your own membership base. See exactly where your current members live and ensure your new site captures new territory.</p>
+
+</div>
+
+</section>
+
+
+
+<footer>
+
+<p>© 2025 StrataGym · Helping gym owners grow with data.</p>
+
+</footer>
+
+
+
+<script>
+
+function handleSubmit(){
+
+const e = document.getElementById('email').value;
+
+const n = document.getElementById('name').value;
+
+if(!e || !e.includes('@') || !n){
+
+alert('Please fill in your name and a valid email.');
+
+return;
+
+}
+
+document.getElementById('confirm-msg').style.display='block';
+
+// Clear fields
+
+document.getElementById('email').value='';
+
+document.getElementById('name').value='';
+
+}
+
+</script>
+
